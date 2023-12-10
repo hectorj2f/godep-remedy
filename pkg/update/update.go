@@ -116,7 +116,7 @@ func update(modules map[string]*types.Module, modroot string, tidy bool) (string
 		log.Printf("Get package: %s\n", k)
 		if pkg.Replace {
 			log.Println("Running go mod edit replace ...")
-			if output, err := run.GoModEditReplaceModule(pkg.Name, pkg.Version, modroot); err != nil {
+			if output, err := run.GoModEditReplaceModule(pkg.Name, pkg.Name, pkg.Version, modroot); err != nil {
 				log.Println(err)
 				return output, err
 			}

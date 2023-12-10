@@ -26,14 +26,14 @@ func GoGetModule(name, version, modroot string) (string, error) {
 	return "", nil
 }
 
-func GoModEditReplaceModule(name, version, modroot string) (string, error) {
-	cmd := exec.Command("go", "mod", "edit", "-dropreplace", fmt.Sprintf("%s", name))
+func GoModEditReplaceModule(nameOld, nameNew, version, modroot string) (string, error) {
+	cmd := exec.Command("go", "mod", "edit", "-dropreplace", fmt.Sprintf("%s", nameOld))
 	cmd.Dir = modroot
 	if bytes, err := cmd.CombinedOutput(); err != nil {
 		return strings.TrimSpace(string(bytes)), fmt.Errorf("Error running go command to drop replace modules: %w", err)
 	}
 
-	cmd = exec.Command("go", "mod", "edit", "-replace", fmt.Sprintf("%s=%s@%s", name, name, version))
+	cmd = exec.Command("go", "mod", "edit", "-replace", fmt.Sprintf("%s=%s@%s", nameOld, nameNew, version))
 	cmd.Dir = modroot
 	if bytes, err := cmd.CombinedOutput(); err != nil {
 		return strings.TrimSpace(string(bytes)), fmt.Errorf("Error running go command to replace modules: %w", err)
